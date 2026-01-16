@@ -7,7 +7,7 @@ using namespace std;
 int main()
 {
 	//²âÊÔgit¹¦ÄÜ
-
+	//¼ÌĞø²âÊÔ
 
 	Tetris game(20, 10, 263, 133, 36);
 

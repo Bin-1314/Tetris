@@ -6,8 +6,9 @@ using namespace std;
 
 int main()
 {
-	//²âÊÔgit¹¦ÄÜ
-	//¼ÌĞø²âÊÔ
+	//æµ‹è¯•gitåŠŸèƒ½
+	//ç»§ç»­æµ‹è¯•
+	//nihao
 
 	Tetris game(20, 10, 263, 133, 36);
 
@@ -29,16 +30,16 @@ int main()
 				switch (ch)
 				{
 				case 72:
-					cout << "ÉÏ¼ıÍ·" << endl;
+					cout << "ä¸Šç®­å¤´" << endl;
 					break;
 				case 80:
-					cout << "ÏÂ¼ıÍ·" << endl;
+					cout << "ä¸‹ç®­å¤´" << endl;
 					break;
 				case 75:
-					cout << "×ó¼ıÍ·" << endl;
+					cout << "å·¦ç®­å¤´" << endl;
 					break;
 				case 77:
-					cout << "ÓÒ¼ıÍ·" << endl;
+					cout << "å³ç®­å¤´" << endl;
 					break;
 				default:
 					break;

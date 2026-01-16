@@ -6,6 +6,8 @@ using namespace std;
 
 int main()
 {
+	//²âÊÔgit¹¦ÄÜ
+
 
 	Tetris game(20, 10, 263, 133, 36);
 

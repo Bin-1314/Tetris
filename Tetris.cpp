@@ -126,7 +126,10 @@ void Tetris::keyEvent()
 	}
 	if (rotateFlag)
 	{
-
+		//todo
+		//
+		rotate();
+		update = true;
 	}
 
 	
@@ -207,6 +210,20 @@ void Tetris::moveLeftRight(int offset)
 {
 	bakBlock = *curBlock;
 	curBlock->moveLeftRight(offset);
+	if (!curBlock->blockInMap(map))
+	{
+		*curBlock = bakBlock;
+	}
+}
+
+void Tetris::rotate()
+{
+	if (curBlock->getBlockType() == 7)
+	{
+		return;
+	}
+	bakBlock = *curBlock;
+	curBlock->rotate();
 	if (!curBlock->blockInMap(map))
 	{
 		*curBlock = bakBlock;

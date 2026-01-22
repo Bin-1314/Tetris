@@ -15,7 +15,7 @@ public:
 	Block();
 	void drop();
 	void moveLeftRight(int offset);
-	void retate();
+	void rotate();
 	void draw(int leftMargin,int topMargin);
 	static IMAGE** getImages();
 	Block& operator = (const Block& other);
@@ -23,6 +23,7 @@ public:
 	bool blockInMap(const vector<vector<int>>&map);
 	//Point* getsmallBlocks();
 	void solidify(vector<vector<int>>& map);
+	int getBlockType();
 
 private:
 	int blockType;

@@ -1,5 +1,6 @@
 #include "Tetris.h"
 #include<ctime>
+#include<iostream>
 #include<cstdlib>
 #include<stdio.h>
 #include<conio.h>
@@ -8,6 +9,7 @@
 #include<tchar.h>
 #include<string>
 #include<string.h>
+#include<fstream>
 #include<wchar.h>
 #include"Block.h"
 
@@ -15,6 +17,9 @@
 #pragma comment(lib,"winmm.lib")
 
 #define MAX_LEVEL 5
+#define RECORDER_FILE "recorder.txt"
+
+using namespace std;
 //const int SPEED_NORMAL = 500; //ms
 const int SPEED_NORMAL[MAX_LEVEL] = { 500,300,150,100,80 };
 const int SPEED_QUICK = 30;
@@ -74,6 +79,25 @@ void Tetris::init()
 	score = 0;
 	level = 1;
 	lineCount = 0;
+	highestScore_updateFlag = 0;
+
+	ifstream file(RECORDER_FILE);
+	if (!file.is_open())
+	{
+		cout << RECORDER_FILE << "打开失败" << endl;
+		highestScore = 0;
+	}
+	else
+	{
+		file >> highestScore;
+	}
+	//if (highestScore_updateFlag == 1)
+	//{
+	//	ofstream file(RECORDER_FILE);
+	//	file << highestScore << endl;
+	//	file.close();
+	//}
+	file.close();
 }
 
 void Tetris::play()
@@ -184,6 +208,7 @@ void Tetris::updateWindow()
 	nextBlock->draw(689, 150);
 
 	drawScore();
+	updateHighestScore();
 
 	EndBatchDraw();
 }
@@ -252,7 +277,17 @@ void Tetris::clearLine()
 		//计算得分
 		//to do.
 		int addScore[4] = { 10,30,60,80 };
-		score += addScore[lines - 1];
+		int lines_s=lines;
+		if (lines>=4)
+		{
+			lines_s = 4;
+		}
+		score += addScore[lines_s - 1];
+		if (score > highestScore)
+		{
+			highestScore = score;
+			highestScore_updateFlag = 1;
+		}
 
 		mciSendString(_T("play res/xiaochu1.mp3"), 0, 0, 0);
 		update = true;
@@ -314,6 +349,10 @@ void Tetris::drawScore()
 	xPos = 224 - f.lfWidth;
 	outtextxy(xPos, 730, scoreText);
 
+	swprintf_s(scoreText, sizeof(scoreText) / sizeof(wchar_t), L"%d", highestScore);
+	outtextxy(670, 817, scoreText);
+
+
 }
 
 void Tetris::drawLineCount()
@@ -324,5 +363,15 @@ void Tetris::drawLineCount()
 void Tetris::drawLevel()
 {
 	
+}
+
+void Tetris::updateHighestScore()
+{
+	if (highestScore_updateFlag == 1)
+	{
+		ofstream file(RECORDER_FILE);
+		file << highestScore << endl;
+		file.close();
+	}
 }
 

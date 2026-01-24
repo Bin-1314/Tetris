@@ -25,6 +25,7 @@ private:
 	void drawScore();
 	void drawLineCount();
 	void drawLevel();
+	void updateHighestScore();
 
 
 private:
@@ -45,6 +46,8 @@ private:
 	Block bakBlock;
 
 	int score;
+	int highestScore;
+	int highestScore_updateFlag;
 	int level;
 	int lineCount;
 };

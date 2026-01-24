@@ -1,7 +1,7 @@
 #include "Tetris.h"
 #include<ctime>
 #include<iostream>
-#include<cstdlib>
+#include<stdlib.h>
 #include<stdio.h>
 #include<conio.h>
 #include<windows.h>
@@ -47,6 +47,8 @@ Tetris::Tetris(int rows, int cols, int left, int top, int blockSize)
 
 void Tetris::init()
 {
+	mciSendString(_T("play res/bg.mp3 repeat"), 0, 0, 0);
+
 	delay = SPEED_NORMAL[0];
 
 	//配置随机数种子
@@ -66,6 +68,8 @@ void Tetris::init()
 	//加载背景图片
 	loadimage(&imgBg, _T("res/bg2.png"));
 
+	loadimage(&imgOver, _T("res/over.png"));
+	loadimage(&imgWin, _T("res/win.png"));
 
 	//初始化游戏区的数据、
 	char data[20][10];
@@ -98,6 +102,10 @@ void Tetris::init()
 	//	file.close();
 	//}
 	file.close();
+
+
+	gameOver = false;
+
 }
 
 void Tetris::play()
@@ -135,6 +143,14 @@ void Tetris::play()
 
 			clearLine();
 
+		}
+		if (gameOver)
+		{
+			updateHighestScore();
+			displayOver();
+			system("pause");
+			//getchar();
+			init();
 		}
 	}
 }
@@ -243,6 +259,9 @@ void Tetris::drop()
 		delete curBlock;
 		curBlock = nextBlock;
 		nextBlock = new Block;
+
+
+		checkOver();
 	}
 	delay = SPEED_NORMAL[level - 1];
 }
@@ -277,12 +296,8 @@ void Tetris::clearLine()
 		//计算得分
 		//to do.
 		int addScore[4] = { 10,30,60,80 };
-		int lines_s=lines;
-		if (lines>=4)
-		{
-			lines_s = 4;
-		}
-		score += addScore[lines_s - 1];
+
+		score += addScore[lines - 1];
 		if (score > highestScore)
 		{
 			highestScore = score;
@@ -293,6 +308,10 @@ void Tetris::clearLine()
 		update = true;
 
 		level = (score + 99) / 100;
+		if (level > MAX_LEVEL)
+		{
+			gameOver = true;
+		}
 
 		lineCount += lines;
 	}
@@ -372,6 +391,27 @@ void Tetris::updateHighestScore()
 		ofstream file(RECORDER_FILE);
 		file << highestScore << endl;
 		file.close();
+	}
+}
+
+void Tetris::checkOver()
+{
+	gameOver = (curBlock->blockInMap(map) == false);
+
+}
+
+void Tetris::displayOver()
+{
+	mciSendString(_T("stop res/bg.mp3"), 0, 0, 0);
+	if (level <= MAX_LEVEL)
+	{
+		putimage(262, 361, &imgOver);
+		mciSendString(_T("play res/over.mp3"), 0, 0, 0);
+	}
+	else
+	{
+		putimage(262, 361, &imgWin);
+		mciSendString(_T("play res/win.mp3"), 0, 0, 0);
 	}
 }
 

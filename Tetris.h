@@ -26,6 +26,8 @@ private:
 	void drawLineCount();
 	void drawLevel();
 	void updateHighestScore();
+	void checkOver();
+	void displayOver();
 
 
 private:
@@ -40,6 +42,8 @@ private:
 	int topMargin;
 	int blockSize;
 	IMAGE imgBg;
+	IMAGE imgOver;
+	IMAGE imgWin;
 
 	Block* curBlock;
 	Block* nextBlock;
@@ -50,5 +54,6 @@ private:
 	int highestScore_updateFlag;
 	int level;
 	int lineCount;
+	bool gameOver;
 };
 

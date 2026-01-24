@@ -1,0 +1,12 @@
+﻿  Block.cpp
+  main.cpp
+D:\Code\C++程序\俄罗斯方块\俄罗斯方块\main.cpp(1,1): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+  Tetris.cpp
+D:\Code\C++程序\俄罗斯方块\俄罗斯方块\Tetris.cpp(55,12): warning C4244: “参数”: 从“time_t”转换到“unsigned int”，可能丢失数据
+D:\Code\C++程序\俄罗斯方块\俄罗斯方块\Tetris.cpp(75,7): warning C4101: “data”: 未引用的局部变量
+D:\Code\C++程序\俄罗斯方块\俄罗斯方块\Tetris.cpp(244,11): warning C4244: “初始化”: 从“unsigned __int64”转换到“int”，可能丢失数据
+  正在生成代码
+  Previous IPDB not found, fall back to full compilation.
+  All 316 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  已完成代码的生成
+  俄罗斯方块.vcxproj -> D:\Code\C++程序\俄罗斯方块\Release\俄罗斯方块.exe

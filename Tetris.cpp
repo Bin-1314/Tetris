@@ -1,9 +1,14 @@
 #include "Tetris.h"
 #include<ctime>
 #include<cstdlib>
+#include<stdio.h>
 #include<conio.h>
 #include<windows.h>
+#include<graphics.h>
 #include<tchar.h>
+#include<string>
+#include<string.h>
+#include<wchar.h>
 #include"Block.h"
 
 #include<mmsystem.h>
@@ -57,6 +62,7 @@ void Tetris::init()
 			map[i][j] = 0;
 		}
 	}
+	score = 0;
 }
 
 void Tetris::play()
@@ -166,6 +172,8 @@ void Tetris::updateWindow()
 	curBlock->draw(leftMargin, topMargin);
 	nextBlock->draw(689, 150);
 
+	drawScore();
+
 	EndBatchDraw();
 }
 
@@ -230,7 +238,9 @@ void Tetris::clearLine()
 	if (lines > 0)
 	{
 		//º∆À„µ√∑÷
-		//todo
+		//to do.
+		int addScore[4] = { 10,30,60,80 };
+		score += addScore[lines - 1];
 
 		mciSendString(_T("play res/xiaochu1.mp3"), 0, 0, 0);
 		update = true;
@@ -259,5 +269,22 @@ void Tetris::rotate()
 	{
 		*curBlock = bakBlock;
 	}
+}
+
+void Tetris::drawScore()
+{
+	wchar_t scoreText[32];
+	swprintf_s(scoreText, sizeof(scoreText)/sizeof(wchar_t), L"%d", score);
+	setcolor(RGB(180,180,180));
+	LOGFONT f;
+	gettextstyle(&f);
+	f.lfHeight = 60;
+	f.lfWidth = 30;
+	f.lfQuality = NONANTIALIASED_QUALITY;
+	wcscpy_s(f.lfFaceName ,sizeof(f.lfFaceName)/ sizeof(wchar_t),_T("Segoe UI Black"));
+	settextstyle(&f);
+	setbkmode(TRANSPARENT);
+	outtextxy(670, 730, scoreText);
+
 }
 

@@ -22,6 +22,7 @@ private:
 	void clearLine();
 	void moveLeftRight(int offset);
 	void rotate();
+	void drawScore();
 
 private:
 	int delay;
@@ -40,6 +41,7 @@ private:
 	Block* nextBlock;
 	Block bakBlock;
 
+	int score;
 
 };
 

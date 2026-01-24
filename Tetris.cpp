@@ -3,7 +3,11 @@
 #include<cstdlib>
 #include<conio.h>
 #include<windows.h>
+#include<tchar.h>
 #include"Block.h"
+
+#include<mmsystem.h>
+#pragma comment(lib,"winmm.lib")
 
 const int SPEED_NORMAL = 500; //ms
 const int SPEED_QUICK = 50;
@@ -201,9 +205,36 @@ void Tetris::drop()
 
 void Tetris::clearLine()
 {
+	int lines = 0;
+	int k = rows - 1;
+	for (int i = rows -1; i >= 0; i--)
+	{
+		int count = 0;
+		for (int j = 0; j < cols; j++)
+		{
+			if (map[i][j])
+			{
+				count++;
+			}
+			map[k][j] = map[i][j];
+		}
+		if (count < cols)
+		{
+			k--;
+		}
+		else
+		{
+			lines++;
+		}
+	}
+	if (lines > 0)
+	{
+		//º∆À„µ√∑÷
+		//todo
 
-
-
+		mciSendString(_T("play res/xiaochu1.mp3"), 0, 0, 0);
+		update = true;
+	}
 }
 
 void Tetris::moveLeftRight(int offset)

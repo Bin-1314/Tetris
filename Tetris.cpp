@@ -14,8 +14,10 @@
 #include<mmsystem.h>
 #pragma comment(lib,"winmm.lib")
 
-const int SPEED_NORMAL = 500; //ms
-const int SPEED_QUICK = 50;
+#define MAX_LEVEL 5
+//const int SPEED_NORMAL = 500; //ms
+const int SPEED_NORMAL[MAX_LEVEL] = { 500,300,150,100,80 };
+const int SPEED_QUICK = 30;
 
 
 Tetris::Tetris(int rows, int cols, int left, int top, int blockSize)
@@ -40,7 +42,7 @@ Tetris::Tetris(int rows, int cols, int left, int top, int blockSize)
 
 void Tetris::init()
 {
-	delay = SPEED_NORMAL;
+	delay = SPEED_NORMAL[0];
 
 	//配置随机数种子
 	srand(time(NULL));
@@ -48,10 +50,17 @@ void Tetris::init()
 
 	//创建游戏窗口
 	initgraph(938,896);
-	
+	//initgraph(938, 896, EW_NOCLOSE | EW_NOMINIMIZE | EW_NOMAXIMIZE);
+	//initgraph(938, 896, EW_NOCLOSE | EW_NOMINIMIZE);
+	//initgraph(938, 896, SHOWCONSOLE);
+	//initgraph(938, 896,NULL);
+
+	//HWND hwnd = GetHWnd();
+	//SetWindowPos(hwnd, HWND_TOP, 0, 0, 938, 896, SWP_SHOWWINDOW);
 
 	//加载背景图片
 	loadimage(&imgBg, _T("res/bg2.png"));
+
 
 	//初始化游戏区的数据、
 	char data[20][10];
@@ -63,6 +72,8 @@ void Tetris::init()
 		}
 	}
 	score = 0;
+	level = 1;
+	lineCount = 0;
 }
 
 void Tetris::play()
@@ -208,7 +219,7 @@ void Tetris::drop()
 		curBlock = nextBlock;
 		nextBlock = new Block;
 	}
-	delay = SPEED_NORMAL;
+	delay = SPEED_NORMAL[level - 1];
 }
 
 void Tetris::clearLine()
@@ -234,6 +245,7 @@ void Tetris::clearLine()
 		{
 			lines++;
 		}
+		
 	}
 	if (lines > 0)
 	{
@@ -244,7 +256,13 @@ void Tetris::clearLine()
 
 		mciSendString(_T("play res/xiaochu1.mp3"), 0, 0, 0);
 		update = true;
+
+		level = (score + 99) / 100;
+
+		lineCount += lines;
 	}
+
+
 }
 
 void Tetris::moveLeftRight(int offset)
@@ -286,5 +304,25 @@ void Tetris::drawScore()
 	setbkmode(TRANSPARENT);
 	outtextxy(670, 730, scoreText);
 
+	swprintf_s(scoreText, sizeof(scoreText) / sizeof(wchar_t), L"%d", lineCount);
+	gettextstyle(&f);
+	int xPos = 224 - f.lfWidth * wcslen(scoreText);
+	outtextxy(xPos, 817, scoreText);
+
+	swprintf_s(scoreText, sizeof(scoreText) / sizeof(wchar_t), L"%d", level);
+	gettextstyle(&f);
+	xPos = 224 - f.lfWidth;
+	outtextxy(xPos, 730, scoreText);
+
+}
+
+void Tetris::drawLineCount()
+{
+
+}
+
+void Tetris::drawLevel()
+{
+	
 }
 

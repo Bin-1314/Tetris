@@ -15,7 +15,6 @@ int main()
 	game.play();
 
 
-
 	/*while (1)
 	{
 		unsigned char ch;

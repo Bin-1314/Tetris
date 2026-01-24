@@ -23,6 +23,9 @@ private:
 	void moveLeftRight(int offset);
 	void rotate();
 	void drawScore();
+	void drawLineCount();
+	void drawLevel();
+
 
 private:
 	int delay;
@@ -42,6 +45,7 @@ private:
 	Block bakBlock;
 
 	int score;
-
+	int level;
+	int lineCount;
 };
 
